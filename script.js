@@ -1,10 +1,35 @@
 'use strict';
 
-let num = 266219;
-num = num.toString().split('');
+const week = {
+    ru: ['Понелельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'],
+    en: ['Monday', 'Tuesday', 'Wednesday', 'thursday', 'Friday', 'Saturday', 'Sunday'],
+};
 
-const mult = num.reduce((acc, item) => acc *= item, 1);
+const lang = prompt('Введите язык (ru/en)', 'ru').toLowerCase();
 
-console.log(mult);
-console.log(mult ** 3);
-console.log((mult**3).toString().slice(0, 2));
+if (lang === 'ru') {
+    week.ru.forEach(item => console.log(item));
+} else if (lang === 'en') {
+    week.en.forEach(itme => console.log(itme));
+}
+console.log('');
+
+switch (lang) {
+    case 'ru':
+        week.ru.forEach(item => console.log(item));
+        break;
+    case 'en':
+        week.en.forEach(itme => console.log(itme));
+        break;
+}
+console.log('');
+
+week[lang].forEach(item => console.log(item));
+console.log('');
+
+
+const value = prompt('Введите имя');
+const rez = value === 'Артем' ? 'Директор' :
+            value === 'Максим' ? 'Преподаватель' :
+            'Студент';
+console.log(rez);
