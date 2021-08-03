@@ -1,35 +1,7 @@
 'use strict';
 
-const week = {
-    ru: ['Понелельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'],
-    en: ['Monday', 'Tuesday', 'Wednesday', 'thursday', 'Friday', 'Saturday', 'Sunday'],
-};
+const str = prompt('Введите строку');
 
-const lang = prompt('Введите язык (ru/en)', 'ru').toLowerCase();
+const fixText = string => string.trim().slice(0, 30);
 
-if (lang === 'ru') {
-    week.ru.forEach(item => console.log(item));
-} else if (lang === 'en') {
-    week.en.forEach(itme => console.log(itme));
-}
-console.log('');
-
-switch (lang) {
-    case 'ru':
-        week.ru.forEach(item => console.log(item));
-        break;
-    case 'en':
-        week.en.forEach(itme => console.log(itme));
-        break;
-}
-console.log('');
-
-week[lang].forEach(item => console.log(item));
-console.log('');
-
-
-const value = prompt('Введите имя');
-const rez = value === 'Артем' ? 'Директор' :
-            value === 'Максим' ? 'Преподаватель' :
-            'Студент';
-console.log(rez);
+console.log(fixText(str));
