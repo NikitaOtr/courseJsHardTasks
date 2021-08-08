@@ -1,30 +1,15 @@
 'use strict';
 
-const arr = ['4223234', '232434', '34324324', '932445434', '23646564533', '46254234535', '752345325'];
-for (let item of arr) {
-     if (item[0] === '2' || item[0] === '4'){
-          console.log(item);
-     }
-}
+let week = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
 
-const checkPrime = function(n) {
-     if (!Number.isInteger(n)) {
-          return false;
-     }
-     if (n < 2) {
-          return false;
-     }
-     for (let i = 2; i <= Math.sqrt(n); i++){
-          if (n % i === 0){
-               return false;
-          }
-     }
-     return true;
-};
-
-let dev;
-for (let num = 0; num < 101; num++) {
-     if (checkPrime(num)){
-          console.log(num);
-     }
+for (let i = 0; i < week.length; i++) {
+     const dayOff = document.createElement('p');
+     if (((i + 1) % 7) === new Date().getDay()) {
+          dayOff.innerHTML = week[i].bold();
+    } else if (week[i] === 'Суббота' || week[i] === 'Воскресенье') {
+          dayOff.innerHTML = week[i].italics();
+    } else {
+          dayOff.innerHTML = week[i];
+    }
+    document.body.appendChild(dayOff);
 }
