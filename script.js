@@ -1,15 +1,36 @@
 'use strict';
 
-let week = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+const time = new Date();
 
-for (let i = 0; i < week.length; i++) {
-     const dayOff = document.createElement('p');
-     if (((i + 1) % 7) === new Date().getDay()) {
-          dayOff.innerHTML = week[i].bold();
-    } else if (week[i] === 'Суббота' || week[i] === 'Воскресенье') {
-          dayOff.innerHTML = week[i].italics();
-    } else {
-          dayOff.innerHTML = week[i];
-    }
-    document.body.appendChild(dayOff);
+setInterval(function () {
+      time.setSeconds(time.getSeconds() + 1);
+      createClockA(time);
+      createClockB(time);
+}, 1000);
+
+
+const clockA = document.createElement('div');
+createClockA(time);
+document.body.appendChild(clockA);
+
+function createClockA(time2) {
+      const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            weekday: 'long',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric'
+            };
+      clockA.innerHTML = 'Cегодня ' + time2.toLocaleString('ru', options);
+}
+
+
+const clockB = document.createElement('div');
+createClockB(time);
+document.body.appendChild(clockB);
+
+function createClockB(time2) {
+      clockB.innerHTML = time2.toLocaleString().split(', ').join(' - ');
 }
