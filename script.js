@@ -58,15 +58,12 @@ function render () {
 
 buttonRegister.addEventListener('click', function() {
     let username = getUserName('Введите имя и фамилию');
-    console.log(username);
     if (username === null) {return;}
 
     const userLogin = getUserString('Введите логин');
-    console.log(userLogin);
     if (userLogin === null) {return;}
 
     const userPassword = getUserString('Введите пароль');
-    console.log(userPassword);
     if (userPassword === null) {return;}
 
     username = username.split(' ');
@@ -88,12 +85,15 @@ buttonLogin.addEventListener('click', function() {
     const userPassword = getUserString();
     if (userPassword === null) {return;}
 
+    const oldName = hiName.textContent;
     users.forEach(function(item) {
         if (item.login === userLogin && item.password === userPassword) {
-            console.log(item.firsName);
             hiName.textContent = item.firsName;
         }
     });
+    if (oldName === hiName.textContent) {
+        alert('Не верные данные');
+    }
 });
 
 render();
