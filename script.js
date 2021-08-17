@@ -1,49 +1,99 @@
 'use strict';
-function DomElement(selector = '.block', height = 100, width = 100, bg = 'white', fontSize = '16px') {
-    this.selector = selector; 
-    this.height = height;
-    this.width = width;
-    this.bg = bg;
-    this.fontSize = fontSize;
-    this.move = false;
-}
-DomElement.prototype.bildElement = function() {
-    const block = document.createElement('div');
-    block.textContent = 'Hello world!!!';
-    if (this.selector.startsWith('.')) {block.classList.add(this.selector.slice(1));}
-    if (this.selector.startsWith('#')) {block.id = this.selector.slice(1);}
-    block.style.cssText = 'background: ' + this.bg;
-    block.style.cssText += 'height: ' + this.height + 'px';
-    block.style.cssText += 'width: ' + this.width + 'px';
-    block.style.cssText += 'font-size: ' + this.fontSize + 'px';
-    block.style.cssText += 'position: absolute';
-    const _this = this;
-    function move(event) {
-        if (event.key === 'ArrowUp') {
-            block.style.marginTop = +block.style.marginTop.slice(0, -2) - 10 + 'px';
-        }
-        if (event.key === 'ArrowDown') {
-            block.style.marginTop = +block.style.marginTop.slice(0, -2) + 10 + 'px';
-        }
-        if (event.key === 'ArrowLeft') {
-            block.style.marginLeft = +block.style.marginLeft.slice(0, -2) - 10 + 'px';
-        }
-        if (event.key === 'ArrowRight') {
-            block.style.marginLeft = +block.style.marginLeft.slice(0, -2) + 10 + 'px';
-        }
-    }
-    block.addEventListener('click', function() {
-        if (_this.move){
-            document.removeEventListener('keydown', move);
-        } else {
-            document.addEventListener('keydown', move);
-        }
-        _this.move = !_this.move;
-    });
-    return block;
-};
-const div1 = new DomElement('#selc', 500, 600, 'red', 70);
-document.body.append(div1.bildElement());
+const hiName = document.querySelector('#username');
+const buttonRegister = document.querySelector('#registerUser');
+const buttonLogin = document.querySelector('#loginUser');
+const userList = document.querySelector('#listUser');
 
-const div2 = new DomElement('.div', 60, 60, 'green', 15);
-document.body.append( div2.bildElement());
+const users = JSON.parse(localStorage.getItem('users')) ?? [];
+
+function getUserName(massage) {
+    let data = prompt(massage);
+    if (data === null) {return null;}
+    if (data.trim().split(' ').length === 2) {return data.trim();}
+    return getUserName(massage);
+}
+
+function getUserString(massage) {
+    let str = prompt(massage);
+    if (str === null) {return null;}
+    if (str.trim() !== '') {return str.trim();}
+    return getUserString(massage);
+}
+
+function getNowDate() {
+    const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        weekday: 'long',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric'
+        };
+    const date = (new Date()).toLocaleString('ru', options);
+    return date.split(' ').slice(1).join(' ');
+}
+
+function render () {
+    userList.innerHTML = '';
+    users.forEach(function(item, index) {
+        const li = document.createElement('li');
+        li.textContent = 'Имя: ' + item.firsName + ', ';
+        li.textContent += 'Фамилия: ' + item.lastName + ', ';
+        li.textContent += 'Дата: ' + item.date;
+
+        const buttonDelete = document.createElement('button');
+        buttonDelete.textContent = 'Удалить';
+        buttonDelete.classList.add('buttonDelete');
+        buttonDelete.addEventListener('click', function() {
+            users.splice(index, 1);
+            localStorage.setItem('users', JSON.stringify(users));
+            li.remove();
+        });
+
+        li.append(buttonDelete);
+        userList.append(li);
+    });
+}
+
+buttonRegister.addEventListener('click', function() {
+    let username = getUserName('Введите имя и фамилию');
+    console.log(username);
+    if (username === null) {return;}
+
+    const userLogin = getUserString('Введите логин');
+    console.log(userLogin);
+    if (userLogin === null) {return;}
+
+    const userPassword = getUserString('Введите пароль');
+    console.log(userPassword);
+    if (userPassword === null) {return;}
+
+    username = username.split(' ');
+    users.push({
+        firsName: username[0][0].toUpperCase() + username[0].slice(1).toLowerCase(),
+        lastName: username[1][0].toUpperCase() + username[1].slice(1).toLowerCase(),
+        login: userLogin,
+        password: userPassword,
+        date: getNowDate(),
+    });
+    localStorage.setItem('users', JSON.stringify(users));
+    render();
+});
+
+buttonLogin.addEventListener('click', function() {
+    const userLogin = getUserString();
+    if (userLogin === null) {return;}
+
+    const userPassword = getUserString();
+    if (userPassword === null) {return;}
+
+    users.forEach(function(item) {
+        if (item.login === userLogin && item.password === userPassword) {
+            console.log(item.firsName);
+            hiName.textContent = item.firsName;
+        }
+    });
+});
+
+render();

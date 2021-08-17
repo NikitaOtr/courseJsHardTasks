@@ -1,0 +1,14 @@
+li{
+    margin-top: 10px;
+}
+button {
+    height: 50px;
+    width: 150px;
+}
+
+.buttonDelete {
+    height: 20px;
+    width: 100px;
+    margin-right: 50px;
+    float: right;
+}
