@@ -5,6 +5,7 @@ function DomElement(selector = '.block', height = 100, width = 100, bg = 'white'
     this.width = width;
     this.bg = bg;
     this.fontSize = fontSize;
+    this.move = false;
 }
 DomElement.prototype.bildElement = function() {
     const block = document.createElement('div');
@@ -15,9 +16,32 @@ DomElement.prototype.bildElement = function() {
     block.style.cssText += 'height: ' + this.height + 'px';
     block.style.cssText += 'width: ' + this.width + 'px';
     block.style.cssText += 'font-size: ' + this.fontSize + 'px';
+    block.style.cssText += 'position: absolute';
+    const _this = this;
+    function move(event) {
+        if (event.key === 'ArrowUp') {
+            block.style.marginTop = +block.style.marginTop.slice(0, -2) - 10 + 'px';
+        }
+        if (event.key === 'ArrowDown') {
+            block.style.marginTop = +block.style.marginTop.slice(0, -2) + 10 + 'px';
+        }
+        if (event.key === 'ArrowLeft') {
+            block.style.marginLeft = +block.style.marginLeft.slice(0, -2) - 10 + 'px';
+        }
+        if (event.key === 'ArrowRight') {
+            block.style.marginLeft = +block.style.marginLeft.slice(0, -2) + 10 + 'px';
+        }
+    }
+    block.addEventListener('click', function() {
+        if (_this.move){
+            document.removeEventListener('keydown', move);
+        } else {
+            document.addEventListener('keydown', move);
+        }
+        _this.move = !_this.move;
+    });
     return block;
 };
-
 const div1 = new DomElement('#selc', 500, 600, 'red', 70);
 document.body.append(div1.bildElement());
 
