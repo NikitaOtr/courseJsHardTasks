@@ -1,14 +1,11 @@
-li{
-    margin-top: 10px;
-}
-button {
-    height: 50px;
-    width: 150px;
+div {
+    height: 100px;
+    width: 100px;
+    background-color: aquamarine;
+    position: relative;
+    margin-bottom: 10px;
 }
 
-.buttonDelete {
-    height: 20px;
+button {
     width: 100px;
-    margin-right: 50px;
-    float: right;
 }
