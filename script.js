@@ -1,99 +1,30 @@
-'use strict';
-const hiName = document.querySelector('#username');
-const buttonRegister = document.querySelector('#registerUser');
-const buttonLogin = document.querySelector('#loginUser');
-const userList = document.querySelector('#listUser');
+const text = document.querySelectorAll('p');
+console.log(text);
 
-const users = JSON.parse(localStorage.getItem('users')) ?? [];
+const week = {
+    0: 'Понедельник',
+    1: 'Вторник',
+    2: 'Среда',
+    3: 'Четверг',
+    4: 'Пятница',
+    5: 'Суббота',
+    6: 'Воскресенье',
+};
 
-function getUserName(massage) {
-    let data = prompt(massage);
-    if (data === null) {return null;}
-    if (data.trim().split(' ').length === 2) {return data.trim();}
-    return getUserName(massage);
+const date = new Date();
+const newYear = new Date(date.getFullYear() + 1, 0, 1, 0, 0, 0);
+
+const hours = date.getHours();
+if (hours < 6) {
+    text[0].textContent = 'Доброй ночи.';
+} else if (hours < 12) {
+    text[0].textContent = 'Доброе утро.';
+} else if (hours < 18) {
+    text[0].textContent = 'Добрый день.';
+} else if (hours <= 23) {
+    text[0].textContent = 'Добрый вечер.';
 }
 
-function getUserString(massage) {
-    let str = prompt(massage);
-    if (str === null) {return null;}
-    if (str.trim() !== '') {return str.trim();}
-    return getUserString(massage);
-}
-
-function getNowDate() {
-    const options = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        weekday: 'long',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric'
-        };
-    const date = (new Date()).toLocaleString('ru', options);
-    return date.split(' ').slice(1).join(' ');
-}
-
-function render () {
-    userList.innerHTML = '';
-    users.forEach(function(item, index) {
-        const li = document.createElement('li');
-        li.textContent = 'Имя: ' + item.firsName + ', ';
-        li.textContent += 'Фамилия: ' + item.lastName + ', ';
-        li.textContent += 'Дата: ' + item.date;
-
-        const buttonDelete = document.createElement('button');
-        buttonDelete.textContent = 'Удалить';
-        buttonDelete.classList.add('buttonDelete');
-        buttonDelete.addEventListener('click', function() {
-            users.splice(index, 1);
-            localStorage.setItem('users', JSON.stringify(users));
-            li.remove();
-        });
-
-        li.append(buttonDelete);
-        userList.append(li);
-    });
-}
-
-buttonRegister.addEventListener('click', function() {
-    let username = getUserName('Введите имя и фамилию');
-    if (username === null) {return;}
-
-    const userLogin = getUserString('Введите логин');
-    if (userLogin === null) {return;}
-
-    const userPassword = getUserString('Введите пароль');
-    if (userPassword === null) {return;}
-
-    username = username.split(' ');
-    users.push({
-        firsName: username[0][0].toUpperCase() + username[0].slice(1).toLowerCase(),
-        lastName: username[1][0].toUpperCase() + username[1].slice(1).toLowerCase(),
-        login: userLogin,
-        password: userPassword,
-        date: getNowDate(),
-    });
-    localStorage.setItem('users', JSON.stringify(users));
-    render();
-});
-
-buttonLogin.addEventListener('click', function() {
-    const userLogin = getUserString();
-    if (userLogin === null) {return;}
-
-    const userPassword = getUserString();
-    if (userPassword === null) {return;}
-
-    const oldName = hiName.textContent;
-    users.forEach(function(item) {
-        if (item.login === userLogin && item.password === userPassword) {
-            hiName.textContent = item.firsName;
-        }
-    });
-    if (oldName === hiName.textContent) {
-        alert('Не верные данные');
-    }
-});
-
-render();
+text[1].textContent += 'Сегодня: ' + week[date.getDay()];
+text[2].textContent += 'Текущее время: ' + date.toLocaleString('en').slice(11);
+text[3].textContent += 'До нового года осталось ' + Math.ceil((newYear - date) / 1000 / 60 / 60 / 24) + ' дней';
