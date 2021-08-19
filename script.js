@@ -7,7 +7,6 @@ let left;
 
 
 function moveDiv() {
-    console.log(count);
     div.style.left = count + 'px';
     count++;
     left = requestAnimationFrame(moveDiv);
