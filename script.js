@@ -16,12 +16,11 @@ function onChagne(e) {
     p.textContent = e.target.value;
 }
 
-input.addEventListener('keyup', debounce(onChagne, 200));
+input.addEventListener('keyup', debounce(onChagne, 250));
 
 
 //Throttle
 const consoleCoorrinate = function(e) {
-    console.log(this);
     p.textContent = e.clientX + ' ' + e.clientY;
 };
 
@@ -37,8 +36,10 @@ const throttle = (fn, time) => {
             return;
         }
 
+        // ?? apply this ??
         fn.apply(this, arg);
         isThrottled = true;
+
         setTimeout(() => {
             isThrottled = false;
             if (saveThis) {
